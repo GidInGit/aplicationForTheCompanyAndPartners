@@ -1,0 +1,27 @@
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: cap
+    ports:
+      - "5432:5432"
+
+  web_app:
+    container_name: web_app
+    build:
+      context: django_dir/CAP
+    depends_on:
+      - postgres
+    environment:
+      DB_NAME: cap
+      DB_USER: user
+      DB_PASSWORD: password
+      DB_HOST: postgres
+      DB_PORT: 5432
+      SECRET_KEY:
+    ports:
+      - "8000:8000"
+    volumes:
+      - /home/devu/PycharmProjects/aplicationForTheCompanyAndPartners/django_dir/CAP:/CAP
