@@ -1,1 +1,1 @@
-app for the company and partner
+app for the company and partners
