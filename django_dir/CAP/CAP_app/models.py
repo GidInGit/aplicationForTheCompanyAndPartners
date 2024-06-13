@@ -22,6 +22,8 @@ class Object(models.Model):
     y = models.FloatField()
     radius = models.FloatField()
 
+
+
 class Partner(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
@@ -61,8 +63,8 @@ class Chip(models.Model):
 class Foreman(models.Model):
     id = models.AutoField(primary_key=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    object = models.ForeignKey(Object, on_delete=models.CASCADE)
-    bracelet = models.ForeignKey(Bracelet, on_delete=models.CASCADE)
+    object = models.ForeignKey(Object, on_delete=models.CASCADE, null=True)
+    bracelet = models.ForeignKey(Bracelet, on_delete=models.CASCADE, null=True)
     role = models.CharField(max_length=50, default="Бригадир")
     full_name = models.CharField(max_length=50)
 
@@ -70,16 +72,16 @@ class Foreman(models.Model):
 class Employee(models.Model):
     id = models.AutoField(primary_key=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    object = models.ForeignKey(Object, on_delete=models.CASCADE)
-    bracelet = models.ForeignKey(Bracelet, on_delete=models.CASCADE)
-    foreman = models.ForeignKey(Foreman, on_delete=models.CASCADE)
+    object = models.ForeignKey(Object, on_delete=models.CASCADE, null=True)
+    bracelet = models.ForeignKey(Bracelet, on_delete=models.CASCADE, null=True)
+    foreman = models.ForeignKey(Foreman, on_delete=models.CASCADE, null=True)
     full_name = models.TextField()
     role = models.TextField()
 
 class Machinery(models.Model):
     id = models.AutoField(primary_key=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    chip = models.ForeignKey(Chip, on_delete=models.CASCADE)
+    chip = models.ForeignKey(Chip, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=50)
     state_number = models.CharField(max_length=50)
     is_work = models.BooleanField()
