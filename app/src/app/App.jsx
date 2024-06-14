@@ -1,6 +1,8 @@
 import './App.css';
 import Navbar from '../widgets/common/navbar/Navbar.jsx';
 import Header from '../widgets/common/header/Header.jsx';
+import { Route, Routes } from 'react-router-dom';
+import Main from '../pages/main/Main.jsx';
 
 function App() {
   return (
@@ -11,7 +13,11 @@ function App() {
       <div className="header">
         <Header />
       </div>
-      <div className="content"></div>
+      <div className="content">
+        <Routes>
+          <Route path={'/'} element={<Main />} />
+        </Routes>
+      </div>
     </div>
   );
 }

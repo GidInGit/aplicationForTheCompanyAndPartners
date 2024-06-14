@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import {
   setCompanyName,
   setError,
@@ -11,7 +11,7 @@ const useCompanyDataHook = () => {
   const companyName = useSelector(state => state.companyData.companyName);
   const error = useSelector(state => state.companyData.error);
 
-  const fetchCompanyData = () => {
+  const fetchCompanyData = useCallback(() => {
     fetchCompanyDataAPI()
       .then(response => {
         dispatch(setCompanyName(response.name));
@@ -19,7 +19,7 @@ const useCompanyDataHook = () => {
       .catch(error => {
         dispatch(setError(error.message));
       });
-  };
+  }, [dispatch]);
 
   useEffect(() => {
     fetchCompanyData();
