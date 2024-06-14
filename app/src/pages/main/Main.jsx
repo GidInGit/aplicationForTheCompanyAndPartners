@@ -1,4 +1,3 @@
-import React from 'react';
 import useMainDataHook from '../../features/customHooks/useMainDataHook.js';
 
 const Main = () => {

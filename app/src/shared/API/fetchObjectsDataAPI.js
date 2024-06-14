@@ -1,11 +1,11 @@
 import fetchDataWithTimeout from './timeoutAPI/fetchDataWithTimeout.js';
 
-const fetchMainDataAPI = async () => {
-  return await fetchDataWithTimeout('/api/main', { method: 'GET' })
+const fetchObjectsDataAPI = async () => {
+  return await fetchDataWithTimeout('/api/objects', { method: 'GET' })
     .then(response => response.data)
     .catch(error => {
       throw error;
     });
 };
 
-export default fetchMainDataAPI;
+export default fetchObjectsDataAPI;

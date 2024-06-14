@@ -3,6 +3,7 @@ import Navbar from '../widgets/common/navbar/Navbar.jsx';
 import Header from '../widgets/common/header/Header.jsx';
 import { Route, Routes } from 'react-router-dom';
 import Main from '../pages/main/Main.jsx';
+import Objects from '../pages/objects/Objects.jsx';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <div className="content">
         <Routes>
           <Route path={'/'} element={<Main />} />
+          <Route path={'/objects'} element={<Objects />} />
         </Routes>
       </div>
     </div>

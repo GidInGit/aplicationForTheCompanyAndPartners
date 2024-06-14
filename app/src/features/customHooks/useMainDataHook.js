@@ -24,7 +24,7 @@ const useMainDataHook = () => {
         dispatch(setActiveBrigades(response.activeBrigades));
       })
       .catch(error => dispatch(setError(error.message)));
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     fetchMainData();
@@ -33,6 +33,7 @@ const useMainDataHook = () => {
       dispatch(setActiveMachinery(null));
       dispatch(setActiveBrigades(null));
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return { activeUsers, activeMachinery, activeBrigades, error };
