@@ -21,6 +21,6 @@ module.exports = {
     "prefer-const": "warn",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "prettier/prettier": "warn"
+    "prettier/prettier": "warn",
   },
 }
