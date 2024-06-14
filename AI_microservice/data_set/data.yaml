@@ -1,0 +1,4 @@
+train: /home/devu/PycharmProjects/aplicationForTheCompanyAndPartners/AI_microservice/data_set/images/train
+val: /home/devu/PycharmProjects/aplicationForTheCompanyAndPartners/AI_microservice/data_set/images/val
+nc: 2  # Number of classes
+names: ['human','helmet']  # Class names
