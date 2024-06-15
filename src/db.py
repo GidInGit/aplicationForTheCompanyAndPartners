@@ -11,16 +11,15 @@ class Bracelet(sqlmodel.SQLModel, table=True):
     rfid: str = sqlmodel.Field(
         sa_column=sqlmodel.Column(sqlmodel.VARCHAR(50), nullable=False)
     )
-    in_use: bool = sqlmodel.Field()
 
 
 class AnalyticsOfDay(sqlmodel.SQLModel, table=True):
     id: int | None = sqlmodel.Field(default=None, primary_key=True)
     bracelet: int = sqlmodel.Field()
+    object_id: int = sqlmodel.Field(index=True)
     first_entry_time: datetime.datetime | None = sqlmodel.Field()
     last_exit_time: datetime.datetime | None = sqlmodel.Field()
-    time_out: int = sqlmodel.Field()
-    time_untraceble: int = sqlmodel.Field()
+    time_worked: int = sqlmodel.Field()
     date: datetime.date = sqlmodel.Field()
 
 

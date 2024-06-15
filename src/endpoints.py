@@ -1,9 +1,8 @@
-import asyncio
 from concurrent.futures import ProcessPoolExecutor
 from datetime import date, datetime
 
 import pydantic
-from fastapi import FastAPI, Response
+from fastapi import FastAPI
 from geopy.distance import geodesic
 
 from db import AnalyticsOfDay, Bracelet, engine, sqlmodel
@@ -39,42 +38,11 @@ def add_bracelet(bracelet: BraceletCreate) -> BraceletCreated:
         return BraceletCreated(id=new.id, rfid=bracelet.rfid)
 
 
-class UseBracelet(pydantic.BaseModel):
-    bracelet_id: int
-    in_use: bool
-
-
-@app.patch("/bracelet/use")
-def use_bracelet(use: UseBracelet, response: Response):
-    with sqlmodel.Session(engine) as s:
-        s.exec(
-            sqlmodel.update(Bracelet)
-            .where(Bracelet.id == use.bracelet_id)
-            .values(in_use=use.in_use)
-        )
-        s.commit()
-        analytics = s.exec(
-            sqlmodel.select(AnalyticsOfDay).where(
-                AnalyticsOfDay.bracelet == use.bracelet_id
-            )
-        ).first()
-        if analytics is None and not use.in_use:
-            response.status_code = 500
-            return
-        elif analytics is None:
-            analytics = AnalyticsOfDay(
-                bracelet=use.bracelet_id,
-                first_entry_time=datetime.now(),
-                last_exit_time=None,
-                time_out=0,
-                time_untraceble=0,
-                date=date.today(),
-            )
-            s.add(analytics)
-        elif not use.in_use:
-            analytics.last_exit_time = datetime.now()
-            s.add(analytics)
-        s.commit()
+class ObjectData(pydantic.BaseModel):
+    object_id: int
+    object_x: int
+    object_y: int
+    object_r: int
 
 
 class PatchData(pydantic.BaseModel):
@@ -85,13 +53,11 @@ class PatchData(pydantic.BaseModel):
 
 
 class PatchBracelet(pydantic.BaseModel):
-    object_x: int
-    object_y: int
-    object_r: int
-    data: list[PatchData]
+    objects: list[ObjectData]
+    bracelets: list[PatchData]
 
 
-def process_bracelet(data: PatchBracelet, bracelet: PatchData):
+def process_bracelet(objects: list[ObjectData], bracelet: PatchData):
     with sqlmodel.Session(engine) as s:
         analytics = s.exec(
             sqlmodel.select(AnalyticsOfDay).where(
@@ -99,36 +65,49 @@ def process_bracelet(data: PatchBracelet, bracelet: PatchData):
                 AnalyticsOfDay.date == date.today(),
             )
         ).first()
-        if bracelet.pulse <= 10:
-            analytics.time_untraceble += 30
-        else:
-            distance = geodesic(
-                (data.object_x, data.object_y), (bracelet.x, bracelet.y)
+        if analytics is None:
+            analytics = AnalyticsOfDay(
+                bracelet=bracelet.bracelet_id,
+                first_entry_time=None,
+                last_exit_time=None,
+                time_worked=0,
             )
-            if distance.km > data.object_r:
-                analytics.time_out += 30
+        if bracelet.pulse <= 10:
+            return
+        for object in objects:
+            distance = geodesic(
+                (object.object_x, object.object_y), (bracelet.x, bracelet.y)
+            ).km
+            if distance > object.object_r:
+                continue
+            analytics.time_worked += 30
+            if analytics.first_entry_time is not None:
+                analytics.first_entry_time = datetime.now()
+                analytics.object_id = object.object_id
+            break
+        else:
+            analytics.last_exit_time = datetime.now()
         s.add(analytics)
         s.commit()
 
 
-@app.patch("/bracelet")
-async def update_bracelets(data: PatchBracelet):
+@app.patch("/bracelet", status_code=201)
+def update_bracelets(data: PatchBracelet):
+    for object in data.objects:
+        object.object_r = (object.object_r + 10) / 1000
     with ProcessPoolExecutor(5) as pool:
-        loop = asyncio.get_event_loop()
-        await asyncio.gather(
-            *(
-                loop.run_in_executor(pool, process_bracelet, data, bracelet)
-                for bracelet in data.data
-            )
+        pool.map(
+            lambda bracelet: process_bracelet(data.objects, bracelet),
+            data.bracelets,
         )
 
 
-@app.post("/bracelets/daily")
-def daily_analitics(ids: list[int], date: date):
+@app.get("/bracelets/daily")
+def daily_analitics(object_id, date: date) -> list[AnalyticsOfDay]:
     with sqlmodel.Session(engine) as s:
         return s.exec(
             sqlmodel.select(AnalyticsOfDay).where(
-                sqlmodel.col(AnalyticsOfDay.id).in_(ids),
+                AnalyticsOfDay.object_id == object_id,
                 AnalyticsOfDay.date == date,
             )
         ).all()
