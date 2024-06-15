@@ -1,0 +1,10 @@
+**/target/
+**/.vscode/
+**/.env
+**/.git/
+**/.dockerignore
+**/Dockerfile
+**/compose.yaml
+**/LICENSE
+**/README.md
+postgres/
