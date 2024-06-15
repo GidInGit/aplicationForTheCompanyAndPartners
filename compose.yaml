@@ -1,5 +1,23 @@
+networks:
+  analytics_bracelet_net: {}
+
 services:
-  db_postgres:
+  analytics_bracelet:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    restart: always
+    environment:
+      DB_HOST: analytics_bracelet_db
+      DB_USER: tester
+      DB_PASS: testing123!
+      DB_NAME: testing
+    depends_on:
+      - analytics_bracelet_db
+    networks:
+      - analytics_bracelet_net
+  
+  analytics_bracelet_db:
     image: postgres:alpine
     environment:
       - POSTGRES_USER=tester
