@@ -298,9 +298,13 @@ while video_capture.isOpened():
                 if matches[best_match_index] and face_distances[best_match_index] < min_distance:
                     min_distance = face_distances[best_match_index]
                     name = known_name
-                    print(name)
+
 
             face_names.add(name)
+        a = face_names - prev_names
+        if a:
+            print(a)
+        prev_names = face_names
 
     frame_count += 1
 
