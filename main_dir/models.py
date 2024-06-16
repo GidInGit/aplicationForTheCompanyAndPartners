@@ -6,29 +6,13 @@ from sqlalchemy import create_engine
 from sqlmodel import SQLModel, Session
 
 
-class Company(sqlmodel.SQLModel, table=True):
-    __tablename__ = "company"
-    id: Optional[int] = sqlmodel.Field(sa_column=sqlmodel.Column(
-            sqlmodel.INT(),
-            primary_key=True,
-            autoincrement=True,
-        )
+def get_time():
+    time = datetime.datetime.now()
+    return datetime.time(
+        hour=time.hour, minute=time.minute
     )
-    name: str = sqlmodel.Field(nullable=False)
 
-class Machinery(sqlmodel.SQLModel, table=True):
-    __tablename__ = "machinary"
-    id: Optional[int] = sqlmodel.Field(sa_column=sqlmodel.Column(
-        sqlmodel.INT(),
-        primary_key=True,
-        autoincrement=True,
-        )
-    )
-    company: int = sqlmodel.Field(foreign_key="company.id")
-    chip: int = sqlmodel.Field(default=None, index=True, nullable=True)
-    name: str = sqlmodel.Field(max_length=50, nullable=False)
-    state_number: str = sqlmodel.Field(max_length=50, nullable=False)
-    is_work: bool = sqlmodel.Field(default=False)
+
 
 class Object(sqlmodel.SQLModel, table=True):
     __tablename__ = "object"
@@ -38,28 +22,9 @@ class Object(sqlmodel.SQLModel, table=True):
         autoincrement=True,
         )
     )
-    company: int = sqlmodel.Field(foreign_key="company.id")
     name: str = sqlmodel.Field(nullable=False)
     address: str = sqlmodel.Field(nullable=False)
-    start_time: datetime.time = sqlmodel.Field(nullable=False)
-    end_time: datetime.time = sqlmodel.Field(nullable=False)
-    x: float = sqlmodel.Field(nullable=False)
-    y: float = sqlmodel.Field(nullable=False)
-    radius: float = sqlmodel.Field(nullable=False)
 
-class Foreman(sqlmodel.SQLModel, table=True):
-    __tablename__ = "foreman"
-    id: Optional[int] = sqlmodel.Field(sa_column=sqlmodel.Column(
-        sqlmodel.INT(),
-        primary_key=True,
-        autoincrement=True,
-        )
-    )
-    company: int = sqlmodel.Field(foreign_key="company.id")
-    object: int = sqlmodel.Field(foreign_key="object.id")
-    bracelet: int = sqlmodel.Field(default=None, index=True, nullable=True)
-    role: str = sqlmodel.Field(default="Бригадир")
-    full_name: str = sqlmodel.Field(max_length=50, nullable=False)
 
 
 
@@ -71,12 +36,10 @@ class Employee(sqlmodel.SQLModel, table=True):
         autoincrement=True,
         )
     )
-    company: int = sqlmodel.Field(foreign_key="company.id")
-    object: int = sqlmodel.Field(foreign_key="object.id")
-    foreman: int = sqlmodel.Field(foreign_key="foreman.id")
-    bracelet: int = sqlmodel.Field(default=None, index=True, nullable=True)
-    full_name: str = sqlmodel.Field(nullable=False)
-    role: str = sqlmodel.Field(nullable=False)
+    name: str = sqlmodel.Field(nullable=False)
+    is_enter: str = sqlmodel.Field(nullable=False)
+    date: datetime.date = sqlmodel.Field(default_factory=datetime.date.today, nullable=False)
+    time: datetime.time = sqlmodel.Field(default_factory=get_time, nullable=False)
 
 
 
@@ -100,7 +63,7 @@ def get_session():
 
 
 def _add_model(
-    session: sqlmodel.Session, model: Company
+    session: sqlmodel.Session, model: Object
 ) -> bool:
     """Adds model to the session. Returns true on success,
     false otherwise"""

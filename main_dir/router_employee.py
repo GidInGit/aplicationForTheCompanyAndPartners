@@ -39,16 +39,16 @@ def get_object_name_and_address(
     return result
 
 
-@router_employee.get("/{id}")
-def get_object_name_and_address(
-        id: int,
-        *,
-        session: Session = Depends(get_session)
-) -> Sequence[models.Employee]:
-    """Gets a list of account names of a user"""
-    statement = sqlmodel.select(models.Employee).where(
-        models.Employee.id == id,
-    )
-
-    result = session.exec(statement).fetchall()
-    return result
+# @router_employee.get("/{id}")
+# def get_object_name_and_address(
+#         id: int,
+#         *,
+#         session: Session = Depends(get_session)
+# ) -> Sequence[models.Employee]:
+#     """Gets a list of account names of a user"""
+#     statement = sqlmodel.select(models.Employee).where(
+#         models.Employee.id == id,
+#     )
+#
+#     result = session.exec(statement).fetchall()
+#     return result

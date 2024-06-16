@@ -1,4 +1,5 @@
 FROM python:3.10-slim
+ENV TZ="Europe/Moscow"
 COPY reqs.txt /temp/reqs.txt
 COPY . /main_dir
 

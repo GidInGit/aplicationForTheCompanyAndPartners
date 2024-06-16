@@ -13,8 +13,8 @@ from models import Object, _add_model
 from models import engine, get_session
 
 router_object = APIRouter(
-    prefix="/object",
-    tags=["Object"]
+    prefix="/objects",
+    tags=["Objects"]
 )
 
 

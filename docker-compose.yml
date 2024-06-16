@@ -23,4 +23,4 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - /home/maybe/PycharmProjects/main_micro/main_dir:/main_dir
+      - /home/maybe/PycharmProjects/aplicationForTheCompanyAndPartners/main_dir:/main_dir
