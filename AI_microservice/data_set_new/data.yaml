@@ -1,0 +1,13 @@
+train: C:\Users\reben\PycharmProjects\aplicationForTheCompanyAndPartners\AI_microservice\data_set_new\train\images
+val: C:\Users\reben\PycharmProjects\aplicationForTheCompanyAndPartners\AI_microservice\data_set_new\valid\images
+test: C:\Users\reben\PycharmProjects\aplicationForTheCompanyAndPartners\AI_microservice\data_set_new\test\images
+
+nc: 18
+names: ['Car', 'Human', 'airplane', 'construction vehicle', 'drill', 'hammer', 'hat', 'military-hardware', 'mobile-phone', 'pliers', 'safety wear', 'saw', 'shovel', 'smoking', 'trowel', 'truck', 'worker', 'wrench']
+
+roboflow:
+  workspace: humananalize
+  project: human-0dxmq
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/humananalize/human-0dxmq/dataset/1

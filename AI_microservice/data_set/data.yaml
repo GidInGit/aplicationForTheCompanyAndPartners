@@ -1,4 +1,13 @@
-train: /home/devu/PycharmProjects/aplicationForTheCompanyAndPartners/AI_microservice/data_set/images/train
-val: /home/devu/PycharmProjects/aplicationForTheCompanyAndPartners/AI_microservice/data_set/images/val
-nc: 2  # Number of classes
-names: ['human','helmet']  # Class names
+train: C:\Users\reben\PycharmProjects\aplicationForTheCompanyAndPartners\AI_microservice\data_set\train\images
+val: C:\Users\reben\PycharmProjects\aplicationForTheCompanyAndPartners\AI_microservice\data_set\valid\images
+test: C:\Users\reben\PycharmProjects\aplicationForTheCompanyAndPartners\AI_microservice\data_set\test\images
+
+nc: 3
+names: ['head', 'helmet', 'person']
+
+roboflow:
+  workspace: humananalize
+  project: hard-hat-sample-xzqmg
+  version: 5
+  license: Public Domain
+  url: https://app.roboflow.com/humananalize/hard-hat-sample-xzqmg/5
