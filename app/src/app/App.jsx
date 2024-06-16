@@ -1,9 +1,8 @@
 import './App.css';
 import Navbar from '../widgets/common/navbar/Navbar.jsx';
-import Header from '../widgets/common/header/Header.jsx';
 import { Route, Routes } from 'react-router-dom';
-import Main from '../pages/main/Main.jsx';
 import Objects from '../pages/objects/Objects.jsx';
+import Employees from '../pages/employees/Employees.jsx';
 
 function App() {
   return (
@@ -11,13 +10,10 @@ function App() {
       <div className="nav">
         <Navbar />
       </div>
-      <div className="header">
-        <Header />
-      </div>
       <div className="content">
         <Routes>
-          <Route path={'/'} element={<Main />} />
           <Route path={'/objects'} element={<Objects />} />
+          <Route path={'/employees'} element={<Employees />} />
         </Routes>
       </div>
     </div>

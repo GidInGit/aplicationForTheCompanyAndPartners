@@ -1,4 +1,19 @@
 .navbar{
+    padding-top: 1.25em;
+    padding-left: 1.25em;
+    height: inherit;
     display: flex;
     flex-direction: column;
+    background: #3c3c3c;
+}
+
+.navbar div{
+    font-size: 2em;
+    font-weight: 600;
+}
+
+.navbar a{
+    padding-top: 1em;
+    padding-left: 1.25em;
+    font-size: 1.25em;
 }

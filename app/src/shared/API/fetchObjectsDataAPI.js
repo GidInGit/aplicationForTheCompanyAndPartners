@@ -1,8 +1,10 @@
-import fetchDataWithTimeout from './timeoutAPI/fetchDataWithTimeout.js';
+import axios from 'axios';
 
 const fetchObjectsDataAPI = async () => {
-  return await fetchDataWithTimeout('/api/objects', { method: 'GET' })
-    .then(response => response.data)
+  return await axios
+    // .get('/api/objects')
+    .get('/api/objects')
+    .then(response => response)
     .catch(error => {
       throw error;
     });
