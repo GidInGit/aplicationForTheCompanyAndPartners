@@ -1,13 +1,22 @@
 from ultralytics import YOLO
+def main():
+    # Создание объекта модели YOLO и загрузка предобученной модели
+    model = YOLO(r'yolov8m.pt')  # Используем YOLOv8n (nano) модель
 
-# Создание объекта модели YOLO и загрузка предобученной модели
-model = YOLO('yolov8n.pt')  # Используем YOLOv8n (nano) модель
+    # Путь к файлу конфигурации набора данных
+    data_path = 'data_set_new/data.yaml'
 
-# Путь к файлу конфигурации набора данных
-data_path = 'data_set/data.yaml'
+    # Обучение модели
+    model.train(data=data_path,
+                imgsz=640,
+                epochs=50,
+                batch=8,
+                workers=8,  # Устанавливаем количество рабочих процессов для загрузки данных
+                name='yolov8n_v8_50e'
+                )
 
-# Обучение модели
-model.train(data=data_path, epochs=10, imgsz=640, workers=4)
+    # Сохранение обученной модели
+    model.save()
 
-# Сохранение обученной модели
-model.save('/home/devu/PycharmProjects/aplicationForTheCompanyAndPartners/AI_microservice/AI')
+if __name__ == '__main__':
+    main()

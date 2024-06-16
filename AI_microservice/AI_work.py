@@ -1,12 +1,12 @@
 from ultralytics import YOLO
 import cv2
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 # Загрузка предварительно обученной модели YOLOv8
-model = YOLO('/home/devu/PycharmProjects/aplicationForTheCompanyAndPartners/runs/detect/train2/weights/last.pt')  # Используем YOLOv8n (nano) модель, можно также выбрать другие версии, например yolov8s.pt, yolov8m.pt, yolov8l.pt, yolov8x.pt
+model = YOLO(r"C:\Users\reben\PycharmProjects\aplicationForTheCompanyAndPartners\runs\detect\yolov8n_v8_50e2\weights\last.pt")
 
 # Загрузка и обработка изображения
-image_path = 'photo/images.jpeg'
+image_path = r'photo\1557360052_0_158_3077_1889_600x0_80_0_0_69193f341735da27d1b7388575cc8682.jpg'
 image = cv2.imread(image_path)
 
 # Выполнение предсказания
@@ -33,7 +33,4 @@ cv2.imshow('Predictions', image)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
 
-# Если нужно отобразить результат в Jupyter Notebook, можно сделать следующее:
-plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
-plt.axis('off')  # Убираем оси для красоты
-plt.show()
+
